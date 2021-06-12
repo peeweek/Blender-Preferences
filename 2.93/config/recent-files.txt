@@ -1,5 +1,0 @@
-F:\git\DOTS-training-samples\Ported\dots-training-2021-05-eu-group1_Labsrat\GFX\Particle.blend
-F:\git\DOTS-training-samples\Ported\dots-training-2021-05-eu-group1_Labsrat\GFX\Base.blend
-C:\Users\Thomas\Music\Base.blend
-D:\bdr\Flame01b.blend
-D:\bdr\Flame01.blend
