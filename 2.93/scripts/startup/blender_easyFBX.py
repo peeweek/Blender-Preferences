@@ -51,6 +51,7 @@ def exportObject(object):
     bpy.ops.object.select_all(action='DESELECT')    
     select(object)
     
+    print(f"Exporting Object {object.name} as file {path}")
     
     # TODO : Add more options to control export
     bpy.ops.export_scene.fbx(
@@ -172,16 +173,19 @@ class EasyFBXExport(bpy.types.Operator):
                 
                 # Filter Selected
                 if only_selected and not (object in selection):
+                    print(f"Excluding {name} : not in selection")
                     continue
                 
                 name = object.name
                 
                 # Filter Include String
                 if filter_include and not (filter_include_str in name):
+                    print(f"Excluding {name} : does not include '{filter_include_str}'")
                     continue
                 
                 # Filter Out Exclude String
                 if filter_exclude and (filter_exclude_str in name):
+                    print(f"Excluding {name} : excluded because contains '{filter_include_str}'")
                     continue
                 
                 exportObject(object)
