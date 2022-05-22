@@ -28,7 +28,7 @@ bl_info = {
     "blender": (2, 80, 0),
     "author": "Thomas Iché",
     "description": "Simplest FBX Mesh Export Tool",
-    "version": (0, 1, 0),    
+    "version": (0, 2, 0),    
     }
 
 import bpy
@@ -48,6 +48,8 @@ def exportObject(object):
     path = os.path.join(bpy.context.scene.exportFolder,filename)
     print(path)
     
+    exportTextures = bpy.context.scene.exportTextures
+    print(exportTextures)
     bpy.ops.object.select_all(action='DESELECT')    
     select(object)
     
@@ -84,8 +86,8 @@ def exportObject(object):
              bake_anim_force_startend_keying=True, 
              bake_anim_step=1.0, 
              bake_anim_simplify_factor=1.0, 
-             path_mode='AUTO', 
-             embed_textures=False, 
+             path_mode='COPY', 
+             embed_textures=exportTextures, 
              batch_mode='OFF', 
              use_batch_own_dir=True, 
              use_metadata=True, 
@@ -130,6 +132,10 @@ class EasyFBXExportUIPanel(bpy.types.Panel):
         row = col.row(align=True)
         row.prop(context.scene, 'exportExclude', text="Exclude")
         row.prop(context.scene, 'exportExcludeStr', text="")
+        
+        box = layout.box()
+        col = box.column(align=True)
+        col.prop(context.scene, 'exportTextures', text="Export Textures") 
         
         box = layout.box()
         col = box.column(align=True)
@@ -216,6 +222,7 @@ def register():
     bpy.types.Scene.exportCollection = bpy.props.PointerProperty (name = "exportCollection",  type=bpy.types.Collection, description = "Export Collection")
     bpy.types.Scene.exportSelected = bpy.props.BoolProperty (name = "exportSelected", default = False, description = "exportSelected")
     bpy.types.Scene.exportOverwrite = bpy.props.BoolProperty (name = "exportOverwrite", default = True, description = "exportOverwrite")
+    bpy.types.Scene.exportTextures = bpy.props.BoolProperty (name = "exportTextures", default = True, description = "exportTextures")
     
     bpy.types.Scene.exportInclude = bpy.props.BoolProperty (name = "exportInclude", default = False, description = "exportInclude")
     bpy.types.Scene.exportIncludeStr = bpy.props.StringProperty (name = "exportIncludeStr", default = "ST_", description = "exportIncludeStr")
