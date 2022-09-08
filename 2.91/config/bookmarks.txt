@@ -1,7 +1,0 @@
-[Bookmarks]
-[Recent]
-C:\Users\peeweek\Documents\BlenderPrefs\
-D:\bdr\Flame01b.render\
-D:\bdr\
-D:\bdr\Flame01.render\
-D:\bdr\Flame01.cache\
