@@ -4,3 +4,4 @@ platform_support.txt
 *.pyc
 private
 3.3/scripts/addons
+3.6/scripts/addons
