@@ -45,7 +45,10 @@ def select(object):
 
 def exportObject(object):
     filename = f"{object.name}.fbx"
-    path = os.path.join(bpy.context.scene.exportFolder,filename)
+    
+    folder = bpy.path.abspath(bpy.context.scene.exportFolder)
+    
+    path = os.path.join(folder,filename)
     print(path)
     
     exportTextures = bpy.context.scene.exportTextures
@@ -150,11 +153,21 @@ class EasyFBXExport(bpy.types.Operator):
 
 
     def execute(self, context):
-         
-        hasfolder = os.access(context.scene.exportFolder, os.W_OK)
-        if hasfolder is False:
-            self.report({'WARNING'}, "Select a valid export folder")
-            return {'FINISHED'}
+        
+        # Preliminary Checks
+        
+        # If  we export to the same folder as the blend file, make sure we're already saved
+        if context.scene.exportFolder.startswith("//") :
+            if not bpy.data.is_saved :
+                self.report({'WARNING'}, "Save your blend file first in order to export in the same folder")
+                return {'FINISHED'}
+        else:
+            # Check if folder exists
+            hasfolder = os.access(context.scene.exportFolder, os.W_OK)
+             
+            if hasfolder is False:            
+                self.report({'WARNING'}, "Select a valid export folder")
+                return {'FINISHED'}
             
         if context.scene.exportCollection is None:
             self.report({'WARNING'}, "Select a valid collection")
@@ -218,7 +231,7 @@ def register():
     for cls in classes:
         bpy.utils.register_class(cls)
         
-    bpy.types.Scene.exportFolder = bpy.props.StringProperty (name = "exportFolder",default = "C:\\export\\", description = "destination folder",subtype = 'DIR_PATH')
+    bpy.types.Scene.exportFolder = bpy.props.StringProperty (name = "exportFolder",default = "//", description = "destination folder",subtype = 'DIR_PATH')
     bpy.types.Scene.exportCollection = bpy.props.PointerProperty (name = "exportCollection",  type=bpy.types.Collection, description = "Export Collection")
     bpy.types.Scene.exportSelected = bpy.props.BoolProperty (name = "exportSelected", default = False, description = "exportSelected")
     bpy.types.Scene.exportOverwrite = bpy.props.BoolProperty (name = "exportOverwrite", default = True, description = "exportOverwrite")
