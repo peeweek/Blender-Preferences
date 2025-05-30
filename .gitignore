@@ -3,5 +3,11 @@ recent-files.txt
 platform_support.txt
 *.pyc
 private
-3.3/scripts/addons
-3.6/scripts/addons
+addons
+addons
+recent-searches.txt
+nebula_generator
+studiolights
+cell_fracture
+.blender_ext
+.cache
